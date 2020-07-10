@@ -57,7 +57,7 @@ $ cd foxy
 $ make
 ```
 
-4. Write and compile a minimal *fox* program called `life`. Don't get too excited, it only returns the number `42`. We supply the name of our source file `life.fox` and our platform with `-platform linux-gcc`. The latter is important for the next step.
+4. Write and compile a minimal *fox* program called `life`. As the name implies, it's very powerful and returns the number `42`. We supply the name of our source file `life.fox` and our platform with `-platform linux-gcc`. The latter is important for the next step.
 ```
 $ echo "# hello fox" > life.fox
 $ echo "var x" >> life.fox
@@ -68,12 +68,12 @@ life.fox
 life.fox -> life.s
 ```
 
-5. Assemble and link our *fox* program. We simply re-use `gcc` for this.
+5. Assemble and link the *fox* program. We simply re-use `gcc` for this.
 ```
 $ gcc life.s -o life
 ```
 
-6. Run `life` and print the previous program's return code with `$?`.. Verify that the answer to the ultimate question of life, the universe, and everything, is indeed `42`.
+6. Run `life` and print the previous program's return code with `$?`. Verify that the answer to the ultimate question of life, the universe, and everything, is indeed `42`.
 ```
 $ ./life
 $ echo $?
