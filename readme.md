@@ -59,7 +59,7 @@ $ make
 
 4. Write and compile a minimal *fox* program called `life`. Don't get too excited, it only returns the number `42`. We supply the name of our source file `life.fox` and our platform with `-platform linux-gcc`. The latter is important for the next step.
 ```
-$ echo "var x; x 42; return x;" > life.fox
+$ printf "var x\nx 42\nreturn x" > life.fox
 $ ./foxy life.fox -platform linux-gcc
 life.fox
 life.fox -> life.s
