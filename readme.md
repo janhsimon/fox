@@ -15,9 +15,9 @@ Nothing serious, unless you are very brave and/or reckless. Use *fox* to learn a
 
 ```
 # this is a comment
-var x;    # define a variable
-x 7;      # assign the value 17
-return x; # return 7
+var x    # define variable
+x 7      # assign value 7
+return x # return variable
 ```
 
 
