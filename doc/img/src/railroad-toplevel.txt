@@ -2,7 +2,7 @@ Diagram
 (
   ZeroOrMore
   (
-    Optional('space'),
+    Optional('spacer'),
     'instruction'
   ),
   '\'\\0\''
