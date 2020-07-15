@@ -1,0 +1,10 @@
+Diagram
+(
+  ZeroOrMore
+  (
+    Optional('space'),
+    'instruction'
+  ),
+  '\'\\0\''
+)
+
