@@ -1,3 +1,10 @@
+# Formalizing *fox* syntax
+
+The following railroad diagrams define the *fox* language syntax. You read these diagrams from left to right, following the paths like a train on rails. You will encounter forks and loops, and that's just about it. Easy.
+
+All railroad diagrams have been created with [this](http://tabatkins.github.io/railroad-diagrams) tool. You will find the source for all these diagrams in this repository as well. This makes modifying the diagrams very easy..
+
+
 # Source File
 
 ![](img/railroad-src-file.svg)
@@ -27,9 +34,9 @@ But what exactly is a `spacer`? And what's an `instruction`? Let's define these 
 
 A `spacer` is just a sequence of whitespaces or tabs. So far, they have just been used to optionally separate the different instructions that make up a *fox* program. This is just so that programmers are free to format *fox* code the way they like, with any amount of extra whitespaces or tabs.
 
-But it's important to note that a 'spacer' as seen in the diagram above does require at least one whitespace or tab. This is because they are also used within some instructions, to seperate a keyword from an identifier for example. Note that the source file diagram has an extra path circumventing the 'spacer' specifically to allow not using any seperation between instructions.
+But it's important to note that a `spacer` as seen in the diagram above does require at least one whitespace or tab. This is because they are also used within some instructions, to seperate some keywords from a following `identifier` for example. Note that the first diagram, the one that describes entire source files, has an extra path circumventing just the `spacer`. If it weren't for that optional skip, every *fox* instruction would have to be surrounded by at least one whitespace or tab.
 
-Let's look at some 'spacer' examples:
+Let's look at some `spacer` examples:
 
 - `' '`
 - `'\t'`
