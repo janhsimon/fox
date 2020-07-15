@@ -1,0 +1,14 @@
+Diagram
+(
+  OneOrMore
+  (
+    Choice
+    (
+      1,
+      Terminal('\'a\'-\'z\''),
+      Terminal('\'A\'-\'Z\''),
+      Terminal('\'_\'')
+    )
+  )
+)
+
