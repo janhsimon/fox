@@ -1,8 +1,10 @@
-# Formalizing *fox* syntax
+# Formalizing the *fox* syntax
 
-The following railroad diagrams define the *fox* language syntax. You read these diagrams from left to right, following the paths like a train on rails. You will encounter forks and loops, and that's just about it. Easy.
+The following railroad diagrams define the *fox* language syntax. You read these diagrams from left to right, following the paths like a train on rails. You will encounter forks and loops, and that's just about it. Couldn't be easier.
 
-All railroad diagrams have been created with [this](http://tabatkins.github.io/railroad-diagrams) tool. You will find the source for all these diagrams in this repository as well. This makes modifying the diagrams very easy.
+The diagrams in this document will allow you to precisely tell valid from invalid *fox* code. Studying this information will not be necessary for most people who are just looking to program in *fox* - but it's absolutely essential for developing the language itself and even more so for writing *fox* compilers.
+
+All railroad diagrams have been created with [this](http://tabatkins.github.io/railroad-diagrams) tool. You will find the source for all these diagrams in this repository as well.
 
 
 # Source File
