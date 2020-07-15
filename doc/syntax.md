@@ -39,7 +39,7 @@ But what exactly is a `spacer`? And what's an `instruction`? Let's define these 
 
 A `spacer` is just a sequence of whitespaces or tabs. So far, they have just been used to optionally separate the different instructions that make up a *fox* program. This is just so that programmers are free to format *fox* code the way they like, with any amount of extra whitespaces or tabs.
 
-But it's important to note that a `spacer` as seen in the diagram above does require at least one whitespace or tab. This is because they are also used within some instructions, to seperate some keywords from a following `identifier` for example. Note that the first diagram, the one that describes entire source files, has an extra path circumventing just the `spacer`. If it weren't for that optional skip, every *fox* instruction would have to be surrounded by at least one whitespace or tab. That would get very tedious very fast, if you ask me.
+But it's important to note that a `spacer` as seen in the diagram above does require at least one whitespace or tab. This is because they are also used within some instructions, to seperate some keywords from a following `identifier` for example. Note that the first diagram, the one that describes entire source files, has an extra path circumventing just the `spacer`. If it weren't for that optional skip, every *fox* instruction would have to be surrounded by at least one whitespace or tab. Before and after. That would get very tedious very fast, if you ask me.
 
 Let's look at some `spacer` examples:
 
@@ -54,7 +54,7 @@ Let's look at some `spacer` examples:
 
 And here are some **invalid** examples for spacers:
 
-- `` (at least one whitespace or tab is required for a `spacer`)
+- ` ` (at least one whitespace or tab is required for a `spacer`)
 - `' ' '\t' 'f' ' '` (only whitespaces and tabs are allowed, no other characters)
 
 Before we can dive into instructions, we need to go over two more diagrams that we will within some instructions.
@@ -67,7 +67,7 @@ Before we can dive into instructions, we need to go over two more diagrams that 
 
 # Identifier
 
-![](imgrailroad-identifier.svg)
+![](img/railroad-identifier.svg)
 
 
 # Instructions
