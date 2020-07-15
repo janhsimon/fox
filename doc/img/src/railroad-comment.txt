@@ -1,7 +1,7 @@
-Diagram
+agram
 (
   '\'#\'',
-  ZeroOrMore('*'),
+  ZeroOrMore('any character but \'\\n\''),
   '\'\\n\''
 )
 
