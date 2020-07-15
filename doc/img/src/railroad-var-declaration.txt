@@ -1,0 +1,9 @@
+Diagram
+(
+  Terminal('\'var\''),
+  Terminal('spacer'),
+  Terminal('identifier'),
+  Optional('spacer'),
+  Sequence(';')
+)
+
