@@ -5,9 +5,9 @@ Diagram
     Choice
     (
       1,
-      Terminal('\'a\'-\'z\''),
-      Terminal('\'A\'-\'Z\''),
-      Terminal('\'_\'')
+      '\'a\'-\'z\'',
+      '\'A\'-\'Z\'',
+      '\'_\''
     )
   )
 )
