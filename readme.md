@@ -1,19 +1,20 @@
 # What is the idea behind *fox*?
 
-*fox* is a very thin coat over assembly. In other words: Programming in *fox* feels like writing assembly, but with added convenience features. This is what's planned:
+*fox* is a thin coat over assembly. Here are the advantages over just writing assembly:
 
-* [ ] Variables with identifiers
-* [ ] Human-readable loops
-* [ ] Easy function calling with arguments
+* [ ] Platform and compiler independence
+* [ ] Human-readable variable names
+* [ ] Simple loops
+* [ ] Function calls with automatic stack handling
 
 
 # What does *fox* code look like?
 
 ```
 # this is a comment
-var x    # define variable
-x 7      # assign value 7
-return x # return variable
+var my_variable    # define variable
+my_variable 42     # assign value 42
+return my_variable # return variable
 ```
 
 
