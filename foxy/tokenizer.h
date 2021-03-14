@@ -1,4 +1,5 @@
-enum token_type {
+enum token_type
+{
   TOKEN_TYPE_HEAD,
   TOKEN_TYPE_TAIL,
   TOKEN_TYPE_RETURN,
@@ -9,8 +10,8 @@ enum token_type {
 struct token
 {
   enum token_type type;
-  struct token* next;
+  struct token *next;
   int value, value2;
 };
 
-struct token* tokenize(const char* filename, const char* src);
+struct token *tokenize(const char *src);

@@ -12,7 +12,8 @@ int read_var(char name)
 
 int find_var(char name)
 {
-  if (vars[name - 'a'] == 11) {
+  if (vars[name - 'a'] == 11)
+  {
     return 0;
   }
   return -1;

@@ -13,7 +13,7 @@ enum error_code
   ERROR_EXPECTED_IDENTIFIER
 };
 
-void set_error_filename(const char* filename);
+void set_error_filename(const char *filename);
 void set_error_line(unsigned int line);
 
-void error(enum error_code code, const char* detail);
+void error(enum error_code code, const char *detail);

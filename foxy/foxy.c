@@ -1,10 +1,10 @@
 #include "error.h"
 #include "parser.h"
 #include "tokenizer.h"
-#include "writer.h"
+
+#include "assembler.h"
 
 #include <stdio.h>  // for printf
-#include <stdlib.h> // for malloc
 #include <string.h> // for strcmp
 
 enum
@@ -14,20 +14,23 @@ enum
   PLATFORM_WIN_VS_2019
 } platform = PLATFORM_NONE;
 
-int main(int argc, char* argv[])
+enum
 {
-  const char* filename;
+  MODE_COMPILE_ONLY,
+  MODE_COMPILE_AND_ASSEMBLE
+} mode = MODE_COMPILE_AND_ASSEMBLE;
 
-  char* arg_ignore = malloc((argc - 1) * sizeof(int));
-
-  if (argc < 2) {
+int main(int argc, char *argv[])
+{
+  if (argc < 2)
+  {
     printf("wrong usage: specify at least one source file\n");
     return 1;
   }
 
+  char arg_ignore[argc];
   for (int i = 1; i < argc; ++i)
   {
-    arg_ignore[i - 1] = 0;
     if (strcmp(argv[i], "-platform") == 0)
     {
       arg_ignore[i - 1] = 1;
@@ -54,6 +57,15 @@ int main(int argc, char* argv[])
         return 3;
       }
     }
+    else if (strcmp(argv[i], "-c") == 0)
+    {
+      arg_ignore[i - 1] = 1;
+      mode = MODE_COMPILE_ONLY;
+    }
+    else
+    {
+      arg_ignore[i - 1] = 0;
+    }
   }
 
   if (platform == PLATFORM_NONE)
@@ -62,6 +74,9 @@ int main(int argc, char* argv[])
     return 4;
   }
 
+  unsigned char config = (mode == MODE_COMPILE_ONLY ? 0 : 1) << 1 | (platform == PLATFORM_LINUX_GCC_7_5 ? 0 : 1);
+  configure_assembler(config);
+
   for (int i = 1; i < argc; ++i)
   {
     if (arg_ignore[i - 1] == 1)
@@ -69,33 +84,26 @@ int main(int argc, char* argv[])
       continue;
     }
 
-    filename = argv[i];
+    const char *filename = argv[i];
     set_error_filename(filename);
 
     printf("%s\n", filename);
 
-    const char* source = parse_source_file(filename);
-    if (source == 0) {
+    const char *source = parse_source_file(filename);
+    if (source == 0)
+    {
       continue;
     }
 
-    struct token* t = tokenize(filename, source);
-    if (t == 0) {
+    struct token *t = tokenize(source);
+    if (t == 0)
+    {
       continue;
     }
 
-    const char* output_filename = source_to_output_filename(filename);
+    const char *output_filename = source_to_output_filename(filename);
     open_output_file(output_filename);
-
-    if (platform == PLATFORM_LINUX_GCC_7_5)
-    {
-      write_linux_gcc_7_5(t);
-    }
-    else if (platform == PLATFORM_WIN_VS_2019)
-    {
-      write_win_vs_2019(t);
-    }
-
+    assemble(t);
     printf("%s -> %s\n", filename, output_filename);
   }
 

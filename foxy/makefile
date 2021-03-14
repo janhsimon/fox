@@ -1,10 +1,14 @@
-CC=gcc
-CFLAGS=-I.
-#DEPS = hellomake.h
-OBJ = error.o foxy.o parser.o tokenizer.o var.o writer.o 
+PROGRAM = foxy
+OBJS = foxy.o assembler.o error.o parser.o tokenizer.o var.o
+CFLAGS = -x c -std=c11 -Wall -Werror -Wextra -Wpedantic
 
-%.o: %.c %.h
-	$(CC) -c -o $@ $< $(CFLAGS)
+all: $(PROGRAM)
 
-foxy: $(OBJ)
-	$(CC) -o $@ $^ $(CFLAGS)
+$(PROGRAM): $(OBJS)
+	cc -o $@ $(OBJS)
+
+%.o: %.c
+	cc $(CFLAGS) -o $@ -c $<
+
+clean:
+	rm $(OBJS) $(PROGRAM)

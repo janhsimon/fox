@@ -4,11 +4,11 @@
 
 struct error_state
 {
-  const char* filename;
+  const char *filename;
   unsigned int line;
 } state;
 
-void set_error_filename(const char* filename)
+void set_error_filename(const char *filename)
 {
   state.filename = filename;
 }
@@ -18,7 +18,7 @@ void set_error_line(unsigned int line)
   state.line = line;
 }
 
-const char* error_code_to_string(enum error_code code)
+const char *error_code_to_string(enum error_code code)
 {
   switch (code)
   {
@@ -37,7 +37,7 @@ const char* error_code_to_string(enum error_code code)
   }
 }
 
-void error(enum error_code code, const char* detail)
+void error(enum error_code code, const char *detail)
 {
   if (detail == 0)
   {
