@@ -1,0 +1,4 @@
+# hello fox
+var x
+x 7
+return x
