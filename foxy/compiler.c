@@ -1,10 +1,9 @@
-#include "tokenizer.h"
-
-#include <stdlib.h> // for malloc
-#include <string.h> // for strncmp
-
+#include "compiler.h"
 #include "error.h"
 #include "var.h"
+
+#include <stdlib.h>
+#include <string.h>
 
 enum state
 {
@@ -42,7 +41,7 @@ void add_token(enum token_type type, struct token **tail)
   *tail = t;
 }
 
-struct token *tokenize(const char *src)
+struct token *compile(const char *src)
 {
   unsigned int line_counter = 0;
   struct token *head = malloc(sizeof(struct token));
@@ -67,7 +66,7 @@ struct token *tokenize(const char *src)
 
       if (*src < 'a' || *src > 'z')
       {
-        error(ERROR_EXPECTED_IDENTIFIER, "var");
+        error(ERROR_COMPILER_EXPECTED_IDENTIFIER, "var");
         return 0;
       }
       tail->value = (int)(*src);
@@ -80,7 +79,7 @@ struct token *tokenize(const char *src)
 
       if (*src < 'a' || *src > 'z')
       {
-        error(ERROR_EXPECTED_IDENTIFIER, "var");
+        error(ERROR_COMPILER_EXPECTED_IDENTIFIER, "var");
         return 0;
       }
       tail->value = (int)(*src);
@@ -94,7 +93,7 @@ struct token *tokenize(const char *src)
     {
       if (*src < 'a' || *src > 'z')
       {
-        error(ERROR_EXPECTED_IDENTIFIER, src);
+        error(ERROR_COMPILER_EXPECTED_IDENTIFIER, src);
         return 0;
       }
       add_token(TOKEN_TYPE_CALL, &tail);
@@ -104,7 +103,7 @@ struct token *tokenize(const char *src)
 
       if (*src < '0' || *src > '9')
       {
-        error(ERROR_EXPECTED_NUMBER, "return");
+        error(ERROR_COMPILER_EXPECTED_NUMBER, "return");
         return 0;
       }
       tail->value2 = (int)(*src) - '0';

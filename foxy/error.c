@@ -1,6 +1,6 @@
-#include <stdio.h>
-
 #include "error.h"
+
+#include <stdio.h>
 
 struct error_state
 {
@@ -22,16 +22,16 @@ const char *error_code_to_string(enum error_code code)
 {
   switch (code)
   {
-  case ERROR_INVALID_SOURCE_FILE:
-    return "failed to open source file";
-  case ERROR_INVALID_OUTPUT_FILE:
-    return "failed to create output file";
-  case ERROR_UNKNOWN_IDENTIFIER:
+  case ERROR_COMPILER_UNKNOWN_IDENTIFIER:
     return "unknown identifier";
-  case ERROR_EXPECTED_NUMBER:
+  case ERROR_COMPILER_EXPECTED_NUMBER:
     return "expected number after";
-  case ERROR_EXPECTED_IDENTIFIER:
+  case ERROR_COMPILER_EXPECTED_IDENTIFIER:
     return "expected identifier after";
+  case ERROR_LINKER_INVALID_INPUT_FILE:
+    return "invalid input file for linking";
+  case ERROR_LINKER_INVALID_OUTPUT_FILE:
+    return "invalid output file for linking";
   default:
     return "";
   }

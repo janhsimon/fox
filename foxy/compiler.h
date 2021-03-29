@@ -9,9 +9,9 @@ enum token_type
 
 struct token
 {
-  enum token_type type;
   struct token *next;
+  enum token_type type;
   int value, value2;
 };
 
-struct token *tokenize(const char *src);
+struct token *compile(const char *src);

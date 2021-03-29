@@ -1,5 +1,5 @@
 PROGRAM = foxy
-OBJS = foxy.o assembler.o error.o parser.o tokenizer.o var.o
+OBJS = foxy.o args.o assembler.o compiler.o error.o fileio.o linker.o var.o
 CFLAGS = -x c -std=c11 -Wall -Werror -Wextra -Wpedantic
 
 all: $(PROGRAM)

@@ -1,0 +1,1 @@
+char link(const char *outfilename, const char *infilename);

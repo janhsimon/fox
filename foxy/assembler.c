@@ -1,169 +1,121 @@
-#include "error.h"
-#include "tokenizer.h"
+#include "assembler.h"
+#include "args.h"
+#include "compiler.h"
 #include "var.h"
 
-#include <stdio.h>
-#include <stdlib.h> // for malloc
-
-FILE *file;
-unsigned char config = 0;
-
-void token_head()
+void token_head(FILE *file)
 {
-  if ((config & 2) == 0)
-  // assembly output
+  if (get_output() == OUTPUT_INTEL_X64_ASM)
   {
-    if ((config & 1) == 0)
-    // linux gcc platform
+    if (get_target_platform() == TARGET_PLATFORM_LINUX)
     {
       fputs(".globl main\nmain:\n", file);
     }
-    else
-    // windows vs platform
+    else if (get_target_platform() == TARGET_PLATFORM_WIN)
     {
       fputs(".code\nmain proc\n", file);
     }
   }
 }
 
-void token_tail()
+void token_tail(FILE *file)
 {
-  if ((config & 2) == 0)
-  // assembly output
+  if (get_output() == OUTPUT_INTEL_X64_ASM)
   {
-    if ((config & 1) == 1)
-    // windows vs platform
+    if (get_target_platform() == TARGET_PLATFORM_WIN)
     {
       fputs("main endp\nend", file);
     }
   }
 }
 
-void token_return(struct token *t)
+void token_return(struct token *t, FILE *file)
 {
-  if ((config & 2) == 0)
-  // assembly output
+  if (get_output() == OUTPUT_INTEL_X64_ASM)
   {
-    if ((config & 1) == 0)
-    // linux gcc platform
+    if (get_target_platform() == TARGET_PLATFORM_LINUX)
     {
       fprintf(file, "  movq %%r%d, %%rax\n  ret\n", read_var((char)t->value));
     }
-    else
-    // windows vs platform
+    else if (get_target_platform() == TARGET_PLATFORM_WIN)
     {
       fprintf(file, "  mov rax, r%d\n  ret\n", read_var((char)t->value));
     }
   }
-  else
-  // machine code output
+  else if (get_output() == OUTPUT_EXECUTABLE)
   {
-    fputc(0x4c, file);
-    fputc(0x89, file);
-    fputc(0xc0 + (read_var((char)t->value) - 8) * 8, file);
-    fputc(0xc3, file);
+    if (get_target_platform() == TARGET_PLATFORM_LINUX)
+    {
+      // mov eax, 1 (sys_exit)
+      fputc(0xB8, file);
+      fputc(0x01, file);
+      fputc(0x00, file);
+      fputc(0x00, file);
+      fputc(0x00, file);
+
+      // mov ebx, value (return code)
+      fputc(0xBB, file);
+      fputc(/*read_var((char)t->value)*/0x05, file);
+      fputc(0x00, file);
+      fputc(0x00, file);
+      fputc(0x00, file);
+
+      // Interrupt 0x80
+      fputc(0xCD, file);
+      fputc(0x80, file);
+    }
+    // TODO: Implement for Windows
   }
 }
 
-void token_var(struct token *t)
+void token_var(/*struct token *t*/)
 {
-  write_var((char)t->value, 11);
+  //write_var((char)t->value, 11);
 }
 
-void token_call(struct token *t)
+void token_call(struct token *t, FILE *file)
 {
-  if ((config & 2) == 0)
-  // assembly output
+  if (get_output() == OUTPUT_INTEL_X64_ASM)
   {
-    if ((config & 1) == 0)
-    // linux gcc platform
+    if (get_target_platform() == TARGET_PLATFORM_LINUX)
     {
       fprintf(file, "  movq $%d, %%r%d\n", t->value2, read_var((char)t->value));
     }
-    else
-    // windows vs platform
+    else if (get_target_platform() == TARGET_PLATFORM_WIN)
     {
       fprintf(file, "  mov r%d, %d\n", read_var((char)t->value), t->value2);
     }
   }
-  else
-  // machine code output
+  else if (get_output() == OUTPUT_EXECUTABLE)
   {
-    fputc(0x49, file);
-    fputc(0xc7, file);
-    fputc(0xc0 + read_var((char)t->value) - 8, file);
-    fputc(t->value2, file);
-    fputc(0x00, file);
-    fputc(0x00, file);
-    fputc(0x00, file);
+    write_var((char)t->value, t->value2);
   }
 }
 
-void configure_assembler(unsigned char config_)
+void assemble(struct token *t, FILE *file)
 {
-  config = config_;
-}
-
-const char *source_to_output_filename(const char *filename)
-{
-  const char *i = filename;
-  while (*i != 0 && *i != '.')
-  {
-    ++i;
-  }
-
-  int len = i - filename;
-  char *output_filename = malloc(len + 2);
-
-  for (int j = 0; j < len; ++j)
-  {
-    output_filename[j] = filename[j];
-  }
-
-  output_filename[len + 0] = '.';
-  output_filename[len + 1] = (config & 2) == 0 ? 's' : 'o';
-  output_filename[len + 2] = 0;
-
-  return output_filename;
-}
-
-void open_output_file(const char *filename)
-{
-  file = fopen(filename, "w");
-
-  if (file == 0)
-  {
-    error(ERROR_INVALID_OUTPUT_FILE, filename);
-    fclose(file);
-    return;
-  }
-}
-
-void assemble(struct token *t)
-{
-  while (t != 0)
+  while (t)
   {
     switch (t->type)
     {
     case TOKEN_TYPE_HEAD:
-      token_head();
+      token_head(file);
       break;
     case TOKEN_TYPE_TAIL:
-      token_tail();
+      token_tail(file);
       break;
     case TOKEN_TYPE_RETURN:
-      token_return(t);
+      token_return(t, file);
       break;
     case TOKEN_TYPE_VAR:
-      token_var(t);
+      token_var(/*t*/);
       break;
     case TOKEN_TYPE_CALL:
-      token_call(t);
+      token_call(t, file);
     default:
       break;
     }
+
     t = t->next;
   }
-
-  fclose(file);
 }

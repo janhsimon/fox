@@ -1,12 +1,15 @@
-PROGRAM = life.o
+PROGRAM = life
 SRC = life.fox
 FC = ../../foxy/foxy
-CFLAGS = -platform linux-gcc
+CFLAGS = 
 
-all: $(PROGRAM)
+all: clean $(PROGRAM) promote
 
 $(PROGRAM): $(SRC)
 	$(FC) $(CFLAGS) $(SRC)
 
 clean:
-	rm $(PROGRAM)
+	- rm $(PROGRAM) $(PROGRAM).o
+
+promote:
+	chmod +x $(PROGRAM)
